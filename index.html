@@ -3,11 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dev Board</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6fb; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); display: flex; }
+        .main-content { flex: 3; }
+        .task-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .task { background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .task h4 { margin: 0; color: #333; }
+        .task p { font-size: 14px; color: #666; }
+        .task button { background: #6c5ce7; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 3px; }
+        .task button:disabled { background: gray; cursor: not-allowed; }
+        .activity-log { flex: 1; margin-left: 20px; background: #e0e0e0; padding: 10px; border-radius: 5px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #e3e3f3; color: rgb(32, 31, 31); }
+        .color-btn { width: 30px; height: 30px; border-radius: 50%; background: white; cursor: pointer; }
+        .header-icons { display: flex; align-items: center; gap: 15px; }
+        .header-icons img { width: 25px; height: 25px; }
+        .discover-section { display: flex; justify-content: space-between; align-items: center; background: #6c5ce7; color: white; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .discover-section h2 { font-size: 24px; }
+        .date-box { background: white; color: #333; padding: 8px 12px; border-radius: 5px; }
+    </style>
 </head>
 <body>
+    <div class="navbar">
+        <h2><img src="assets/logo.png" alt="DevBoard Icon"> DevBoard</h2>
+        <div class="header-icons">
+            <span><img src="assets/checkbox.png" alt="Check Icon"> <span id="completedCount">23</span></span>
+            <div class="color-btn" onclick="changeBackground()"></div>
+        </div>
+    </div>
     
+    <div class="container">
+        <div class="main-content">
+            <h2>Task Assigned: <span id="taskCount">5</span></h2>
+            <div class="discover-section">
+                <h2><img src="assets/board.png" alt="Discover Icon"> Discover Something New Today!</h2>
+                <div class="date-box"> <img src="assets/calender.png" alt="calender"> Wed, March 01 2025</div>
+            </div>
+            
+            <div class="task-container" id="taskList">
+                <div class="task"> <h4>Fix Mobile Button Issue</h4> <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi! Debug using Chrome DevTools</p> <button onclick="completeTask(this)">Completed</button> </div>
+                <div class="task"> <h4>Add Dark Mode</h4> <p>Store preference amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi! in localStorage</p> <button onclick="completeTask(this)">Completed</button> </div>
+                <div class="task"> <h4>Optimize Home Page</h4> <p>Check for amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi! overlapping issues</p> <button onclick="completeTask(this)">Completed</button> </div>
+                <div class="task"> <h4>Add new emoji</h4> <p> amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi!Ensure emoji compatibility</p> <button onclick="completeTask(this)">Completed</button> </div>
+                <div class="task"> <h4>Integrate OpenAI API</h4> <p> amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi!Test API integration</p> <button onclick="completeTask(this)">Completed</button> </div>
+                <div class="task"> <h4>Improve Job Searching</h4> <p> amet consectetur adipisicing elit. Vel perferendis cumque tempore laborum animi commodi!Optimize search filters</p> <button onclick="completeTask(this)">Completed</button> </div>
+            </div>
+        </div>
+        
+        <div class="activity-log">
+            <h3> <img src="assets/activity.png" alt="activity-log">Activity Log</h3>
+            <button onclick="clearHistory()">Clear History</button>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+
+    <script>
+        let taskCount = 5;
+        let completedCount = 23;
+        function completeTask(button) {
+            if (taskCount > 0) {
+                taskCount--;
+                completedCount++;
+                document.getElementById("taskCount").innerText = taskCount;
+                document.getElementById("completedCount").innerText = completedCount;
+                button.disabled = true;
+                addToHistory(button.parentNode.querySelector("h4").innerText);
+            }
+        }
+        function addToHistory(task) {
+            let historyList = document.getElementById("historyList");
+            let li = document.createElement("li");
+            let time = new Date().toLocaleTimeString();
+            li.textContent = `You have completed the task '${task}' at ${time}`;
+            historyList.appendChild(li);
+        }
+        function clearHistory() {
+            document.getElementById("historyList").innerHTML = "";
+        }
+        function changeBackground() {
+            const colors = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff"];
+            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
     
 </body>
 </html>
